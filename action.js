@@ -161,20 +161,20 @@ map.on('click', 'toronto-fill', (e) => {
 // add drop down list 
 let boundaryvalue;
 
-document.getElementById("boundaryfieldset").addEventListener('change',(e) => {   
+document.getElementById("boundaryfieldset").addEventListener('change',() => {   
     boundaryvalue = document.getElementById('boundary').value;
-
+    
     console.log(boundaryvalue);
 
     if (boundaryvalue == 'All') {
         map.setFilter(
-            'provterr-fill',
-            ['has', 'PRENAME'] //returns all polygons from layer that have a value in PRENAME field
+            'toronto-fill',
+            ['has', 'PART'] //returns all polygons from layer that have a value in PRENAME field
         );
     } else {
         map.setFilter(
-            'provterr-fill',
-            ['==', ['get', 'PRENAME'], boundaryvalue] //returns polygon with PRENAME value that matches dropdown selection
+            'toronto-fill',
+            ['==', ['get', 'PART'], boundaryvalue] //returns polygon with PRENAME value that matches dropdown selection
         );
     }
 

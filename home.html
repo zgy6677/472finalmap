@@ -25,7 +25,6 @@
 </head> 
 
 <body>
-
     <!-- MAP CONTAINER -->
     <div id='map' class='map'></div>
 
@@ -36,20 +35,25 @@
     </div>
     need more 
 
-    <script src="action.js"></script>
 
-    <form>
+    <div class="map-overlay-dropdown"> 
+        <form>
         <fieldset id="boundaryfieldset">
             <label>Select Province/Territory</label>
             <select id="boundary" name="boundary">
                 <option value="" disabled selected>Select boundary...</option>
-                <option value="Ontario">Ontario</option>
-                <option value="Quebec">Quebec</option>
-                <option value="Yukon">Yukon</option>
-                <option value="All">Show all</option>
+                <option value="South-east">South-east</option>
+                <option value="South-west">South-west</option>
+                <option value="North-east">North-east</option>
+                <option value="North-west">North-west</option>
+                <option value="ALL">Show all</option>
             </select>
         </fieldset>
-   </form>           
+        </form> 
+    </div>
+            
 </body>
 
+    <script src="action.js"></script>
+    
 </html>
