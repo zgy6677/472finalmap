@@ -3,9 +3,9 @@
 # Description
 This map was created to support tourists' navigation of higly rated parks, attractions and restaurants in Toronto
 # Technologies Used
-  *Javascript
-  *HTML
-  *CSS
+*_Javascript
+*_HTML
+ *_CSS
 
 # Authors
 Contributors names
