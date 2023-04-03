@@ -3,9 +3,9 @@
  
 # Description
 # Technologies Used
-Javascript
-HTML
-CSS
+  Javascript
+  HTML
+  CSS
 
 # Authors
 Contributors names
