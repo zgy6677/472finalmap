@@ -13,7 +13,6 @@ const map = new mapboxgl.Map({
 //Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
 
-
 /*--------------------------------------------------------------------
 STORE USER INPUT FEATURES AS GEOJSON
 --------------------------------------------------------------------*/
@@ -71,7 +70,6 @@ map.on('click', (e) => {
 // --------------------------------------------------------------------*/
 
 document.getElementById('buffbutton').addEventListener('click', () => {
-
     //Create empty featurecollection for buffers
     buffresult = {
         "type": "FeatureCollection",
@@ -82,7 +80,6 @@ document.getElementById('buffbutton').addEventListener('click', () => {
     //Add buffer polygons to buffresult feature collection
     geojson.features.forEach((feature) => {
         let buff = turf.buffer(feature, 1); // creating features
-        buffresult.features.pop(0)
         buffresult.features.push(buff); // adding
     });
 
@@ -115,45 +112,43 @@ document.getElementById('buffbutton').addEventListener('click', () => {
 map.on('load', () => {
 
     //Use GeoJSON file as vector tile creates non-unique IDs for features which causes difficulty when highlighting polygons
-    map.addSource('toronto', {
+    map.addSource('sites', {
         type: 'geojson',
-        data: 'https://raw.githubusercontent.com/zgy6677/newlab3/main/Newmap3.geojson', //Link to raw github files when in development stage. Update to pages on deployment
+        data: 'https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472.geojson', //Link to raw github files when in development stage. Update to pages on deployment
     });
 
     //Add layer only once using case expression and feature state for opacity
     map.addLayer({
-        'id': 'toronto-fill',
-        'type': 'fill',
-        'source': 'toronto',
+        'id': 'torontosites',
+        'type': 'circle',
+        'source': 'sites',
         'paint': {
-            'fill-color': '#fbb03b',
-            'fill-opacity': 0.5, //CASE and FEATURE STATE expression sets opactity as 0.5 when hover state is false and 1 when updated to true
-            'fill-outline-color': 'blue'
+            'circle-radius': 4,
+            'circle-color': 'yellow'
         }
-       
     });
 
 });
 
 // ad pop-up window modify filed names
 
-map.on('mouseenter', 'toronto-fill', () => {
+map.on('mouseenter', 'sites', () => {
     map.getCanvas().style.cursor = 'pointer'; //Switch cursor to pointer when mouse is over provterr-fill layer
 });
 
-map.on('mouseleave', 'toronto-fill', () => {
-    map.getCanvas().style.cursor = ''; //Switch cursor back when mouse leaves provterr-fill layer
-    //map.setFilter("provterr-hl",['==', ['get', 'PRUID'], '']);
-});
+// map.on('mouseleave', 'sites', () => {
+//     map.getCanvas().style.cursor = ''; //Switch cursor back when mouse leaves provterr-fill layer
+//     //map.setFilter("provterr-hl",['==', ['get', 'PRUID'], '']);
+// });
 
 
-map.on('click', 'toronto-fill', (e) => {
+map.on('click', 'sites', (e) => {
     new mapboxgl.Popup() 
         .setLngLat(e.lngLat) 
-        .setHTML("<b>Part of Toronto:</b> " + e.features[0].properties.PART + "<br>" +
-            "Population: " + e.features[0].properties.POP + "<br>" +
-            "EU Origin:" + e.features[0].properties.EU + "<br>" +
-            "Asia Origin:" + e.features[0].properties.ASIA) //Use click event properties to write text for popup
+        .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
+            "Address: " + e.features[0].properties.Address + "<br>" +
+            "Rating:" + e.features[0].properties.Rating + "<br>" +
+            "Description:" + e.features[0].properties.Description) //Use click event properties to write text for popup
         .addTo(map); //Show popup on map
 })
 
@@ -168,13 +163,13 @@ document.getElementById("boundaryfieldset").addEventListener('change',() => {
 
     if (boundaryvalue == 'All') {
         map.setFilter(
-            'toronto-fill',
-            ['has', 'PART'] //returns all polygons from layer that have a value in PRENAME field
+            'sites',
+            ['has', 'Details'] //returns all points
         );
     } else {
         map.setFilter(
-            'toronto-fill',
-            ['==', ['get', 'PART'], boundaryvalue] //returns polygon with PRENAME value that matches dropdown selection
+            'sites',
+            ['==', ['get', 'Details'], boundaryvalue] //returns selected points
         );
     }
 
