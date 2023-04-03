@@ -5,7 +5,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoiemd5NjY3NyIsImEiOiJjbGRtMHNzd2owNHJ1M3hxZmw0M
 //Initialize map
 const map = new mapboxgl.Map({
     container: 'map', //container id in HTML
-    style: 'mapbox://styles/mapbox/streets-v12',  //stylesheet location creat our own style
+    style: 'mapbox://styles/robeemre/clg036rqs000r01rz8n9rv2so',  //stylesheet location creat our own style
     center: [-79.39, 43.65],  // starting point, longitude/latitude 43.652652, -79.393014 change to toronto
     zoom: 12 // starting zoom level
 });
