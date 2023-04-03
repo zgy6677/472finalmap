@@ -4,7 +4,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoiemd5NjY3NyIsImEiOiJjbGRtMHNzd2owNHJ1M3hxZmw0M
 
 //Initialize map
 const map = new mapboxgl.Map({
-    container: 'map', //container id in HTML
+    container: 'map', 
     style: 'mapbox://styles/mapbox/outdoors-v12',  //stylesheet location creat our own style
     center: [-79.39, 43.65],  // starting point, longitude/latitude 43.652652, -79.393014 change to toronto
     zoom: 12 // starting zoom level
@@ -13,10 +13,9 @@ const map = new mapboxgl.Map({
 //Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
 
-/*--------------------------------------------------------------------
-STORE USER INPUT FEATURES AS GEOJSON
---------------------------------------------------------------------*/
-
+//======================================================
+//   Add Clicked Point
+//======================================================
 // Create empty GeoJSON objects to hold point features
 let geojson = {
     'type': 'FeatureCollection',
@@ -61,26 +60,37 @@ map.on('click', (e) => {
     //Update the datasource to include clicked points
     map.getSource('inputgeojson').setData(geojson);
 
-    console.log(geojson.features)
+    // console.log(geojson.features)
 
 });
 
-// /*--------------------------------------------------------------------
-// STORE USER INPUT FEATURES AS GEOJSON
-// --------------------------------------------------------------------*/
+//=================
+// add buffer
+//=================
+
 
 document.getElementById('buffbutton').addEventListener('click', () => {
+
     //Create empty featurecollection for buffers
     buffresult = {
         "type": "FeatureCollection",
         "features": []
     };
 
+    // check if array is empty
+    if (buffresult.features.length === 0) { console.log("Array is empty!") }
+
     //Loop through each point in geojson and use turf buffer function to create 0.5km buffer of input points
     //Add buffer polygons to buffresult feature collection
+
     geojson.features.forEach((feature) => {
-        let buff = turf.buffer(feature, 1); // creating features
-        buffresult.features.push(buff); // adding
+        let buff = turf.buffer(feature, 0.5); // creating features
+        let buff1 = turf.buffer(feature, 1);
+        let buff2 = turf.buffer(feature, 2);
+
+        buffresult.features.push(buff);
+        buffresult.features.push(buff1);
+        buffresult.features.push(buff2); // adding
     });
 
     map.addSource('buffgeojson', {
@@ -94,92 +104,110 @@ document.getElementById('buffbutton').addEventListener('click', () => {
         "type": "fill",
         "source": "buffgeojson",
         "paint": {
-            'fill-color': "blue",
-            'fill-opacity': 0.5,
-            'fill-outline-color': "black"
+            'fill-color': "orange",
+            'fill-opacity': 0.2,
+            'fill-outline-color': "white"
         }
     });
-
-    // document.getElementById('buffbutton').disabled = true; //disable  button after click
-
 
 });
 
 
-
+//===============================
 //intialize geojson 
+//===============================
+
 //Add data source and draw initial visiualization of layer change geojson
 map.on('load', () => {
 
     //Use GeoJSON file as vector tile creates non-unique IDs for features which causes difficulty when highlighting polygons
-    map.addSource('sites', {
+    map.addSource('toronto', {
         type: 'geojson',
-        data: 'https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472.geojson', //Link to raw github files when in development stage. Update to pages on deployment
+        data: 'https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.geojson', //Link to raw github files when in development stage. Update to pages on deployment
     });
 
     //Add layer only once using case expression and feature state for opacity
     map.addLayer({
         'id': 'torontosites',
         'type': 'circle',
-        'source': 'sites',
+        'source': 'toronto',
         'paint': {
             'circle-radius': 4,
-            'circle-color': 'yellow'
+            'circle-color': 'green',
+            // 'circle-color': 'yellow'
         }
     });
 
 });
 
-// ad pop-up window modify filed names
+//=====================
+// ad pop-up window
+//=====================
 
-map.on('mouseenter', 'sites', () => {
-    map.getCanvas().style.cursor = 'pointer'; //Switch cursor to pointer when mouse is over provterr-fill layer
-});
-
-// map.on('mouseleave', 'sites', () => {
-//     map.getCanvas().style.cursor = ''; //Switch cursor back when mouse leaves provterr-fill layer
-//     //map.setFilter("provterr-hl",['==', ['get', 'PRUID'], '']);
-// });
-
-
-map.on('click', 'sites', (e) => {
+map.on('click', 'torontosites', (e) => {
     new mapboxgl.Popup() 
         .setLngLat(e.lngLat) 
         .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
-            "Address: " + e.features[0].properties.Address + "<br>" +
-            "Rating:" + e.features[0].properties.Rating + "<br>" +
-            "Description:" + e.features[0].properties.Description) //Use click event properties to write text for popup
+            "<b>Address:</b> " + e.features[0].properties.Address + "<br>" +
+            "<b>Rating:</b>" + e.features[0].properties.Rating + "<br>" +
+            "<b>Description:</b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
         .addTo(map); //Show popup on map
 })
 
+//====================
+// add drop down list filter
+//====================
 
-// add drop down list 
-let boundaryvalue;
+let sitevalue;
 
-document.getElementById("boundaryfieldset").addEventListener('change',() => {   
-    boundaryvalue = document.getElementById('boundary').value;
+document.getElementById("interests").addEventListener('change',() => {   
+    sitevalue = document.getElementById('site').value;
     
-    console.log(boundaryvalue);
+    console.log(sitevalue);
 
-    if (boundaryvalue == 'All') {
-      
+    if (sitevalue == 's') {
+        map.setFilter(
+            'torontosites',
+            ['has', 'Category'] //returns all
+        );
     } else {
         map.setFilter(
-            'sites',
-            ['==', ['get', 'Categories'], boundaryvalue] //returns selected points
+            'torontosites',
+            ['==', ['get', 'Category'], sitevalue] //returns selected points
         );
     }
 
 });
 
+let sitevalue1;
 
-// add buffer by using turf
+document.getElementById("interests1").addEventListener('change',() => {   
+    sitevalue1 = document.getElementById('site1').value;
+    
+    console.log(sitevalue1);
+        map.setFilter(
+            'torontosites',
+            ['==', ['get', 'Details'], sitevalue1] //returns selected points
+        );
+});
+
+
+//==================
+// add nearest point
+//==================
+
+let targetpnt = geojson.features[0]
+let pnts;
+        // add all points into pnts
+        // then nearest = turf.nearestPoint(targetpnt, pnts)
 
 
 
-
-
-
-
-// // define buffer, points defined by click event 
-// var buffered = turf.buffer(point, 2, {units: 'kilometers'});
+// 1. geocoder not showing
+// 2. seperate colors by categories 
+// 3. buffer can only do one time 
+// 4. can not select by buffer
+// 5. how to show nearest point
+//       print the result on html
+// 6. can not import all geo-points into array
+// 7. change points to symbols?

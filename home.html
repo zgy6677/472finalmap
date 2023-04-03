@@ -29,27 +29,62 @@
     <!-- MAP CONTAINER -->
     <div id='map' class='map'></div>
 
+    <div class="geocoder">
+        <script
+            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+        <link rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+            type="text/css">
+    </div>
 
     <!-- ELEMENTS -->
     <div class='map-overlay'>
-        <button type="button" class="btn btn-primary btn-sm" id="buffbutton">Buffer</button>
+        <button type="button" class="btn btn-primary btn-sm" id="buffbutton">10 Mins Suggestions</button>
     </div>
-    need more 
+
+    <!-- NEAREST POINT -->
+    <div class="nearestpnt">
+        <label> <b>The Nearest Site Close to You:</b></label>
 
 
+
+
+        
+    </div>
+
+    <!-- Drop Down list -->
     <div class="map-overlay-dropdown"> 
         <form>
-        <fieldset id="boundaryfieldset">
+        <fieldset id="interests">
             <label>Select Your Interests</label>
-            <select id="boundary" name="boundary">
+            <select id="site" name="site">
                 <option value="" disabled selected>Select...</option>
                 <option value="Parks">Parks</option>
                 <option value="Restaurants">Restaurants</option>
-                <option value="Attraction">Attraction</option>
-                <option value="ALL">Show all</option>
+                <option value="Attractions">Attraction</option>
+                <option value="s">Show all</option>
             </select>
         </fieldset>
         </form> 
+
+        <form>
+            <fieldset id="interests1">
+                <label>Focus On</label>
+                <select id="site1" name="site1">
+                    <option value="" disabled selected>Select...</option>
+                    <option value="Historical site">Historical site</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Aquarium">Aquarium</option>
+                    <option value="Islands">Islands</option>
+                    <option value="Parks">Parks</option>
+                    <option value="Asian">Asian</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="American">American</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Italian">Italian</option>
+                </select>
+            </fieldset>
+            </form> 
     </div>
             
 </body>
