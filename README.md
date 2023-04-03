@@ -2,9 +2,10 @@
 # Toronto Traveler Map
  
 # Description
-#Technologies Used
-
-
+# Technologies Used
+Javascript
+HTML
+CSS
 
 # Authors
 Contributors names
