@@ -10,6 +10,6 @@ To get a copy of this data you need to click on the file and select open in Gith
 
 # Authors
 Contributors names
-@DengTor
-@robeemre
-@zgy6677
+*_@DengTor_
+*_@robeemre_
+*_@zgy6677_
