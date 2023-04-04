@@ -12,6 +12,23 @@ const map = new mapboxgl.Map({
 
 //Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
+// add geocoder check demo 
+
+
+
+// fetch method to read data from github and save as vars
+
+let pntgeojson;
+
+// Fetch GeoJSON from URL and store response
+fetch('https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.geojson')
+    .then(response => response.json())
+    .then(response => {
+        console.log(response); //Check response in console
+        pntgeojson = response; // Store geojson as variable using URL from fetch response
+    });
+
+
 
 //======================================================
 //   Add Clicked Point
@@ -41,6 +58,30 @@ map.on('load', () => {
         }
     });
 
+     //Use GeoJSON file as vector tile creates non-unique IDs for features which causes difficulty when highlighting polygons
+     map.addSource('toronto', {
+        type: 'geojson',
+        data: pntgeojson
+    });
+
+
+
+    //Add layer only once using case expression and feature state for opacity
+    map.addLayer({
+        'id': 'torontosites',
+        'type': 'circle',
+        'source': 'toronto',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': 'green',
+            // if (e.features[0].properties.Category === "Parks") {
+            //     'circle-color': 'green',
+            // }
+
+            'circle-color': 'yellow'
+        }
+    });
+
 });
 
 //Add input features to data source based on mouse click and display in map
@@ -60,9 +101,19 @@ map.on('click', (e) => {
     //Update the datasource to include clicked points
     map.getSource('inputgeojson').setData(geojson);
 
-    // console.log(geojson.features)
+
+    let targetpnt = geojson.features
+    let pnts = pntgeojson.features
+    console.log(targetpnt)
+    console.log(pnts)
+
+    let nearest = turf.nearestPoint(targetpnt, pnts)
+
+    console.log(nearest) 
+
 
 });
+
 
 //=================
 // add buffer
@@ -108,9 +159,13 @@ document.getElementById('buffbutton').addEventListener('click', () => {
             'fill-opacity': 0.2,
             'fill-outline-color': "white"
         }
-    });
+    }); 
 
 });
+
+
+
+// add 
 
 
 //===============================
@@ -118,27 +173,31 @@ document.getElementById('buffbutton').addEventListener('click', () => {
 //===============================
 
 //Add data source and draw initial visiualization of layer change geojson
-map.on('load', () => {
+// map.on('load', () => {
 
-    //Use GeoJSON file as vector tile creates non-unique IDs for features which causes difficulty when highlighting polygons
-    map.addSource('toronto', {
-        type: 'geojson',
-        data: 'https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.geojson', //Link to raw github files when in development stage. Update to pages on deployment
-    });
+//     // //Use GeoJSON file as vector tile creates non-unique IDs for features which causes difficulty when highlighting polygons
+//     // map.addSource('toronto', {
+//     //     type: 'geojson',
+//     //     data: 'https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.geojson', //Link to raw github files when in development stage. Update to pages on deployment
+//     // });
 
-    //Add layer only once using case expression and feature state for opacity
-    map.addLayer({
-        'id': 'torontosites',
-        'type': 'circle',
-        'source': 'toronto',
-        'paint': {
-            'circle-radius': 4,
-            'circle-color': 'green',
-            // 'circle-color': 'yellow'
-        }
-    });
+//     // //Add layer only once using case expression and feature state for opacity
+//     // map.addLayer({
+//     //     'id': 'torontosites',
+//     //     'type': 'circle',
+//     //     'source': 'toronto',
+//     //     'paint': {
+//     //         'circle-radius': 4,
+//     //         'circle-color': 'green',
+//     //         // if (e.features[0].properties.Category === "Parks") {
+//     //         //     'circle-color': 'green',
+//     //         // }
 
-});
+//     //         'circle-color': 'yellow'
+//     //     }
+//     // });
+
+// });
 
 //=====================
 // ad pop-up window
@@ -182,31 +241,57 @@ document.getElementById("interests").addEventListener('change',() => {
 let sitevalue1;
 
 document.getElementById("interests1").addEventListener('change',() => {   
-    sitevalue1 = document.getElementById('site1').value;
+    // sitevalue1 = document.getElementById('site1').value;
+    catevalue = document.getElementById('site').value;
+    if (catevalue === 'Parks') {
+        document.getElementById('all1').style.visibility = 'hidden';
+        document.getElementById('hist1').style.visibility = 'hidden';
+        document.getElementById('restro1').style.visibility = 'hidden';
+        parkvalue1 = document.getElementById('park1').value;  
+        
+    console.log(catevalue);
+    map.setFilter(
+        'torontosites',
+        ['==', ['get', 'Details'], park1] //returns selected points
+    );   
+    }
     
-    console.log(sitevalue1);
-        map.setFilter(
-            'torontosites',
-            ['==', ['get', 'Details'], sitevalue1] //returns selected points
-        );
+
+
+
+
+
+
+
+
+    // console.log(sitevalue1);
+    //     map.setFilter(
+    //         'torontosites',
+    //         ['==', ['get', 'Details'], sitevalue1] //returns selected points
+    //     );
 });
+
+
 
 
 //==================
 // add nearest point
 //==================
 
-let targetpnt = geojson.features[0]
-let pnts;
-        // add all points into pnts
-        // then nearest = turf.nearestPoint(targetpnt, pnts)
+// let targetpnt = geojson
+// let pnts = pntgeojson
+// let near = turf.nearestPoint(targetpnt, pnts)
 
+// console.log(near.properties(0).Name)
 
 
 // 1. geocoder not showing
 // 2. seperate colors by categories 
 // 3. buffer can only do one time 
-// 4. can not select by buffer
+
+// 4. can not select by buffer (Extra)
+
+
 // 5. how to show nearest point
 //       print the result on html
 // 6. can not import all geo-points into array

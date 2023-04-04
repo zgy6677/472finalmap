@@ -24,7 +24,7 @@
 .map-overlay-dropdown {
     position: relative;
     font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    background: rgba(255, 255, 255, 0.8);
+    background: #ff9d9dcc;
     top: 0;
     left: 0;
     width: 260px;
