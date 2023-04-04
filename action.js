@@ -102,13 +102,12 @@ map.on('click', (e) => {
     map.getSource('inputgeojson').setData(geojson);
 
 
-    let targetpnt = geojson.features
+    let targetpnt = geojson.features 
     let pnts = pntgeojson.features
     console.log(targetpnt)
     console.log(pnts)
 
-    let nearest = turf.nearestPoint(targetpnt, pnts)
-
+    let nearest = turf.nearestPoint(targetpnt, pnts);
     console.log(nearest) 
 
 
