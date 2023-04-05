@@ -40,10 +40,10 @@ fetch('https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.g
 map.on('click', 'torontosites', (e) => {
     new mapboxgl.Popup() 
         .setLngLat(e.lngLat) 
-        .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
-            "<b>Address:</b> " + e.features[0].properties.Address + "<br>" +
-            "<b>Rating:</b>" + e.features[0].properties.Rating + "<br>" +
-            "<b>Description:</b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
+        .setHTML("<b>Name: </b> " + e.features[0].properties.Name + "<br>" +
+            "<b>Address: </b> " + e.features[0].properties.Address + "<br>" +
+            "<b>Rating: </b>" + e.features[0].properties.Rating + "<br>" +
+            "<b>Description: </b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
         .addTo(map); //Show popup on map
 })
 
@@ -82,8 +82,6 @@ map.on('load', () => {
         data: pntgeojson
     });
 
-
-
     //Add layer only once using case expression and feature state for opacity
     map.addLayer({
         'id': 'torontosites',
@@ -92,7 +90,7 @@ map.on('load', () => {
         'paint': {
             'circle-radius': 4,
             'circle-color': ["match", ["get", "Category"],
-                ["Parks"],"green",["Attractions"],"yellow",
+                ["Parks"],"green",["Attractions"],"purple",
                 "red"
             ]
         }
@@ -116,10 +114,9 @@ map.on('click', (e) => {
     //Update the datasource to include clicked points
     map.getSource('inputgeojson').setData(geojson);
 
-    let nearest = turf.nearestPoint(geojson.features[0], pntgeojson.features);
-    // let nearest = turf.nearestPoint(geojson.features, pntgeojson.features);
+    let nearest = turf.nearestPoint(geojson.features[0], pntgeojson);
     
-    document.getElementById("p1").innerHTML = "New text!";
+    document.getElementById("nearest").innerHTML = nearest.properties.Name;
     
     console.log(nearest) 
 
@@ -140,16 +137,12 @@ document.getElementById('buffbutton').addEventListener('click', () => {
     };
 
     // check if array is empty
-    if (buffresult.features.length === 0) { console.log("Array is empty!") }
+    // if (buffresult.features.length === 0) { console.log("Array is empty!") }
 
     //Loop through each point in geojson and use turf buffer function to create 0.5km buffer of input points
     //Add buffer polygons to buffresult feature collection
 
     geojson.features.forEach((feature) => {
-        // let buff = turf.buffer(feature, 0.5); // creating features
-        // let buff1 = turf.buffer(feature, 1);
-        // let buff2 = turf.buffer(feature, 2);
-
         buffresult.features.push(turf.buffer(feature, 0.5));
         buffresult.features.push(turf.buffer(feature, 1));
         buffresult.features.push(turf.buffer(feature, 2)); // adding
@@ -183,9 +176,54 @@ document.getElementById('buffbutton').addEventListener('click', () => {
         }
     }); 
 
-    // let buff = turf.buffer(geojson.features[0], 1);
-    // buffresult = buff
-    // map.getSource('buffgeojson').setData(buffresult);
+});
+
+
+
+
+
+//=================
+// select by buffer
+//=================
+
+
+document.getElementById('selection').addEventListener('click', () => {
+
+    //Create empty featurecollection for selected points
+    selected = {
+        "type": "FeatureCollection",
+        "features": []
+    };
+
+    mask = turf.buffer(geojson.features[0], 2); // create mask 
+
+    pntgeojson.features.forEach((feature) => {
+        if (turf.booleanPointInPolygon(feature, mask)) {
+            selected.features.push(feature); 
+        }
+    });
+
+    if (map.getSource('hlight')) {
+        map.removeLayer('highlighted')
+        map.removeSource('hlight')
+    }
+
+
+    map.addSource('hlight', {
+        "type": "geojson",
+        "data": selected
+      //use selected as source
+    })
+    //add selected on map
+    map.addLayer({
+        "id": "highlighted",
+        'type': 'circle',
+        'source': 'hlight',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': 'yellow'
+        }
+    }); 
 
 });
 
@@ -306,5 +344,5 @@ document.getElementById("interests1").addEventListener('change',() => {
 
 // 5. how to show nearest point
 //       print the result on html
-// 6. can not import all geo-points into array
+
 // 7. change points to symbols?
