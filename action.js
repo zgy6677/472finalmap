@@ -13,7 +13,12 @@ const map = new mapboxgl.Map({
 //Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
 // add geocoder check demo 
-
+map.addControl(
+    new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+    })
+);
 
 
 // fetch method to read data from github and save as vars
@@ -73,17 +78,14 @@ map.on('load', () => {
         'source': 'toronto',
         'paint': {
             'circle-radius': 4,
-            'circle-color': 'green',
-            // if (e.features[0].properties.Category === "Parks") {
-            //     'circle-color': 'green',
-            // }
-
-            'circle-color': 'yellow'
+            'circle-color': ["match", ["get", "Category"],
+                ["Parks"],"green",["Attractions"],"yellow",
+                "red"
+            ]
         }
     });
 
 });
-
 //Add input features to data source based on mouse click and display in map
 map.on('click', (e) => {
     //Store clicked point as geojson feature
@@ -97,19 +99,16 @@ map.on('click', (e) => {
 
     //Add clicked point to previously empty geojson FeatureCollection variable
     geojson.features.pop(0)
-    geojson.features.push(clickedpoint);
+    geojson.features.push(clickedpoint); 
     //Update the datasource to include clicked points
     map.getSource('inputgeojson').setData(geojson);
 
-
-    let targetpnt = geojson.features 
-    let pnts = pntgeojson.features
-    console.log(targetpnt)
-    console.log(pnts)
-
-    let nearest = turf.nearestPoint(targetpnt, pnts);
+    let nearest = turf.nearestPoint(geojson.features[0], pntgeojson.features);
+    // let nearest = turf.nearestPoint(geojson.features, pntgeojson.features);
+    
+    document.getElementById("p1").innerHTML = "New text!";
+    
     console.log(nearest) 
-
 
 });
 
@@ -134,25 +133,36 @@ document.getElementById('buffbutton').addEventListener('click', () => {
     //Add buffer polygons to buffresult feature collection
 
     geojson.features.forEach((feature) => {
-        let buff = turf.buffer(feature, 0.5); // creating features
-        let buff1 = turf.buffer(feature, 1);
-        let buff2 = turf.buffer(feature, 2);
+        // let buff = turf.buffer(feature, 0.5); // creating features
+        // let buff1 = turf.buffer(feature, 1);
+        // let buff2 = turf.buffer(feature, 2);
 
-        buffresult.features.push(buff);
-        buffresult.features.push(buff1);
-        buffresult.features.push(buff2); // adding
+        buffresult.features.push(turf.buffer(feature, 0.5));
+        buffresult.features.push(turf.buffer(feature, 1));
+        buffresult.features.push(turf.buffer(feature, 2)); // adding
     });
 
-    map.addSource('buffgeojson', {
+    console.log(buffresult)
+
+    if (map.getSource('buff')) {
+        map.removeLayer('inputpointbuff')
+        map.removeSource('buff')
+    }
+
+
+    map.addSource('buff', {
         "type": "geojson",
-        "data": buffresult  //use buffer geojson variable as data source
+        "data": buffresult
+      //use buffer geojson variable as data source
     })
+
+    // let nearest = turf.nearestPoint(geojson.features[0], pntgeojson.features);
 
     //Show buffers on map using styling
     map.addLayer({
         "id": "inputpointbuff",
         "type": "fill",
-        "source": "buffgeojson",
+        "source": "buff",
         "paint": {
             'fill-color': "orange",
             'fill-opacity': 0.2,
@@ -160,11 +170,11 @@ document.getElementById('buffbutton').addEventListener('click', () => {
         }
     }); 
 
+    // let buff = turf.buffer(geojson.features[0], 1);
+    // buffresult = buff
+    // map.getSource('buffgeojson').setData(buffresult);
+
 });
-
-
-
-// add 
 
 
 //===============================
@@ -273,18 +283,8 @@ document.getElementById("interests1").addEventListener('change',() => {
 
 
 
-//==================
-// add nearest point
-//==================
-
-// let targetpnt = geojson
-// let pnts = pntgeojson
-// let near = turf.nearestPoint(targetpnt, pnts)
-
-// console.log(near.properties(0).Name)
-
-
 // 1. geocoder not showing
+
 // 2. seperate colors by categories 
 // 3. buffer can only do one time 
 
