@@ -47,15 +47,24 @@
     <!-- NEAREST POINT -->
     <div class="nearestpnt">
         <label> <b>The Nearest Site Close to You:</b></label>
-        <p id = 'nearest'> Home!</p>
+        <label> <b>Name: </b></label>
+        <p id = 'nearestn'> </p>
+        <label> <b>Address: </b></label>
+        <p id = 'nearesta'> </p>
+        <label> <b>Description: </b></label>
+        <p id = 'nearestd'> </p>
+
+        <button type="button" class="btn btn-primary btn-sm" id="jumpto">Jump To</button>
+
+
     </div>
 
     <!-- Drop Down list -->
     <div class="map-overlay-dropdown"> 
         <form>
         <fieldset id="interests">
-            <label>Select Your Interests</label>
-            <select id="site" name="site">
+            <label>Select Your Interests <br> </label>
+            <select id="category" name="category">
                 <option value="" disabled selected>Select...</option>
                 <option value="Parks">Parks</option>
                 <option value="Restaurants">Restaurants</option>
@@ -67,19 +76,19 @@
 
         <form>
             <fieldset id="interests1">
-                <label>Focus On</label>
-                <select id="all1" name="all1">
+                <label>Focus On <br> </label>
+                <select id="detail" name="detail">
                     <option value="" disabled selected>Select...</option>
-                    <option value="Historical site">Historical site</option>
-                    <option value="Cultural">Cultural</option>
-                    <option value="Aquarium">Aquarium</option>
-                    <option value="Islands">Islands</option>
-                    <option value="Parks">Parks</option>
-                    <option value="Asian">Asian</option>
-                    <option value="Mediterranean">Mediterranean</option>
-                    <option value="American">American</option>
-                    <option value="Indian">Indian</option>
-                    <option value="Italian">Italian</option>
+                    <option id = 'hist' value="Historical site">Historical site</option>
+                    <option id = 'cult' value="Cultural">Cultural</option>
+                    <option id = 'aqua' value="Aquarium">Aquarium</option>
+                    <option id = 'isl' value="Islands">Islands</option>
+                    <option id = 'par' value="Parks">Parks</option>
+                    <option id = 'asia' value="Asian">Asian</option>
+                    <option id = 'med' value="Mediterranean">Mediterranean</option>
+                    <option id = 'ame' value="American">American</option>
+                    <option id = 'ind' value="Indian">Indian</option>
+                    <option id = 'ita' value="Italian">Italian</option>
                 </select>
             </fieldset>
             </form> 
@@ -89,7 +98,12 @@
 
 
     <!-- Legnd  -->
-    <form action="">
+    <div id="legend" class = 'legend'>
+        <h4>Legend</h4>
+        <!-- <div><span style ='green'></span> Parks </div>
+        <div><span style ='red'></span> Attractions </div>
+        <div><span style ='purple'></span> Restaurants </div> -->
+    </div>
 
 
 
