@@ -33,6 +33,19 @@ fetch('https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.g
         pntgeojson = response; // Store geojson as variable using URL from fetch response
     });
 
+//=====================
+// ad pop-up window
+//=====================
+
+map.on('click', 'torontosites', (e) => {
+    new mapboxgl.Popup() 
+        .setLngLat(e.lngLat) 
+        .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
+            "<b>Address:</b> " + e.features[0].properties.Address + "<br>" +
+            "<b>Rating:</b>" + e.features[0].properties.Rating + "<br>" +
+            "<b>Description:</b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
+        .addTo(map); //Show popup on map
+})
 
 
 //======================================================
@@ -212,15 +225,15 @@ document.getElementById('buffbutton').addEventListener('click', () => {
 // ad pop-up window
 //=====================
 
-map.on('click', 'torontosites', (e) => {
-    new mapboxgl.Popup() 
-        .setLngLat(e.lngLat) 
-        .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
-            "<b>Address:</b> " + e.features[0].properties.Address + "<br>" +
-            "<b>Rating:</b>" + e.features[0].properties.Rating + "<br>" +
-            "<b>Description:</b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
-        .addTo(map); //Show popup on map
-})
+// map.on('click', 'torontosites', (e) => {
+//     new mapboxgl.Popup() 
+//         .setLngLat(e.lngLat) 
+//         .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
+//             "<b>Address:</b> " + e.features[0].properties.Address + "<br>" +
+//             "<b>Rating:</b>" + e.features[0].properties.Rating + "<br>" +
+//             "<b>Description:</b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
+//         .addTo(map); //Show popup on map
+// })
 
 //====================
 // add drop down list filter
