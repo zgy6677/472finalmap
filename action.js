@@ -34,7 +34,7 @@ fetch('https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.g
     });
 
 //=====================
-// ad pop-up window
+// add pop-up window
 //=====================
 
 map.on('click', 'torontosites', (e) => {
@@ -47,6 +47,87 @@ map.on('click', 'torontosites', (e) => {
         .addTo(map); //Show popup on map
 })
 
+//====================
+// add drop down list filter
+//====================
+let dropfilter = {
+    'type': 'FeatureCollections',
+    'features': []
+};
+
+let sitevalue;
+
+document.getElementById("category").addEventListener('change',() => {   
+    myselect = document.getElementById('detail');
+    sitevalue = document.getElementById('category').value;
+    
+    console.log(sitevalue);
+
+    // if (sitevalue == 'Parks') {
+    //     // myselect.remove(1);
+    //     // myselect.remove(2);
+    //     // myselect.remove(3);
+    //     // myselect.remove(6);
+    //     // myselect.remove(7);
+    //     // myselect.remove(8);
+    //     // myselect.remove(9);
+    //     // myselect.remove(10)
+    // };
+    // if (sitevalue == 'Attractions') {
+    //     myselect.remove(4);
+    //     myselect.remove(5);
+    //     myselect.remove(6);
+    //     myselect.remove(7);
+    //     myselect.remove(8);
+    //     myselect.remove(9);
+    //     myselect.remove(10)
+    // };        
+    // if (sitevalue == 'Restaurants') {
+    //     myselect.remove(1);
+    //     myselect.remove(2);
+    //     myselect.remove(3);
+    //     myselect.remove(4);
+    //     myselect.remove(5)
+    // };
+
+    if (sitevalue == 's') {
+        map.setFilter(
+            'torontosites',
+            ['has', 'Category'] //returns all
+        );
+    } else {
+        map.setFilter(
+             'torontosites',
+            ['==', ['get', 'Category'], sitevalue] //returns selected points
+         );
+
+        // pntgeojson.features.forEach((feature) => {
+        //     if (feature.properties.Category == sitevalue) {
+        //         dropfilter.features.push(feature); 
+        //     }
+        // });
+        // console.log(dropfilter)
+
+    };
+});
+
+
+let sitevalue1;
+document.getElementById("detail").addEventListener('change',() => {   
+    sitevalue1 = document.getElementById('detail').value;
+    // pntgeojson.features.forEach((feature) => {
+    //     if (feature.properties.Details == sitevalue1) {
+    //         dropfilter.features.push(feature); 
+    //     }
+    // });
+
+    // console.log(dropfilter)
+
+    map.setFilter(
+        'torontosites',
+        ['==', ['get', 'Details'], sitevalue1] //returns selected points
+    );   
+});
 
 //======================================================
 //   Add Clicked Point
@@ -56,6 +137,8 @@ let geojson = {
     'type': 'FeatureCollection',
     'features': []
 };
+
+let nearpnt = []
 
 //Set data source and style on map load
 map.on('load', () => {
@@ -114,11 +197,27 @@ map.on('click', (e) => {
     //Update the datasource to include clicked points
     map.getSource('inputgeojson').setData(geojson);
 
-    let nearest = turf.nearestPoint(geojson.features[0], pntgeojson);
+    var nearest = turf.nearestPoint(geojson.features[0], pntgeojson);
+    console.log(nearest)
     
-    document.getElementById("nearest").innerHTML = nearest.properties.Name;
-    
-    console.log(nearest) 
+    document.getElementById("nearestn").innerHTML = nearest.properties.Name;
+    document.getElementById("nearesta").innerHTML = nearest.properties.Address;
+    document.getElementById("nearestd").innerHTML = nearest.properties.Description;
+    // console.log(nearest) 
+
+//=================
+// Add Jump To the Nearest Function
+//=================
+
+    document.getElementById('jumpto').addEventListener('click',() => {
+        map.flyTo ({
+            center: nearest.geometry.coordinates,
+            zoom: 15,
+            essential: true
+        });
+    });
+
+
 
 });
 
@@ -179,9 +278,6 @@ document.getElementById('buffbutton').addEventListener('click', () => {
 });
 
 
-
-
-
 //=================
 // select by buffer
 //=================
@@ -229,7 +325,7 @@ document.getElementById('selection').addEventListener('click', () => {
 
 
 //===============================
-//intialize geojson 
+//intialize geojson == BACK UP
 //===============================
 
 //Add data source and draw initial visiualization of layer change geojson
@@ -259,90 +355,104 @@ document.getElementById('selection').addEventListener('click', () => {
 
 // });
 
-//=====================
-// ad pop-up window
-//=====================
-
-// map.on('click', 'torontosites', (e) => {
-//     new mapboxgl.Popup() 
-//         .setLngLat(e.lngLat) 
-//         .setHTML("<b>Name:</b> " + e.features[0].properties.Name + "<br>" +
-//             "<b>Address:</b> " + e.features[0].properties.Address + "<br>" +
-//             "<b>Rating:</b>" + e.features[0].properties.Rating + "<br>" +
-//             "<b>Description:</b>" + e.features[0].properties.Description) //Use click event properties to write text for popup
-//         .addTo(map); //Show popup on map
-// })
 
 //====================
 // add drop down list filter
 //====================
 
-let sitevalue;
+// let sitevalue;
 
-document.getElementById("interests").addEventListener('change',() => {   
-    sitevalue = document.getElementById('site').value;
+// document.getElementById("category").addEventListener('change',() => {   
+//     myselect = document.getElementById('detail');
+//     sitevalue = document.getElementById('category').value;
     
-    console.log(sitevalue);
+//     console.log(sitevalue);
 
-    if (sitevalue == 's') {
-        map.setFilter(
-            'torontosites',
-            ['has', 'Category'] //returns all
-        );
-    } else {
-        map.setFilter(
-            'torontosites',
-            ['==', ['get', 'Category'], sitevalue] //returns selected points
-        );
-    }
+//     // if (sitevalue == 'Parks') {
+//     //     myselect.remove(1);
+//     //     myselect.remove(2);
+//     //     myselect.remove(3);
+//     //     myselect.remove(6);
+//     //     myselect.remove(7);
+//     //     myselect.remove(8);
+//     //     myselect.remove(9);
+//     //     myselect.remove(10)
+//     // };
+//     // if (sitevalue == 'Attractions') {
+//     //     myselect.remove(4);
+//     //     myselect.remove(5);
+//     //     myselect.remove(6);
+//     //     myselect.remove(7);
+//     //     myselect.remove(8);
+//     //     myselect.remove(9);
+//     //     myselect.remove(10)
+//     // };        
+//     // if (sitevalue == 'Restaurants') {
+//     //     myselect.remove(1);
+//     //     myselect.remove(2);
+//     //     myselect.remove(3);
+//     //     myselect.remove(4);
+//     //     myselect.remove(5)
+//     // };
 
+//     if (sitevalue == 's') {
+//         map.setFilter(
+//             'torontosites',
+//             ['has', 'Category'] //returns all
+//         );
+//     } else {
+//         map.setFilter(
+//             'torontosites',
+//             ['==', ['get', 'Category'], sitevalue] //returns selected points
+//         );
+
+//     };
+// });
+
+// let sitevalue1;
+
+// document.getElementById("detail").addEventListener('change',() => {   
+//     sitevalue1 = document.getElementById('detail').value;
+//     map.setFilter(
+//         'torontosites',
+//         ['==', ['get', 'Details'], sitevalue1] //returns selected points
+//     );   
+// });
+
+
+
+// add legend
+//Declare arrayy variables for labels and colours
+const legendlabels = [
+    'Parks',
+    'Attractions',
+    'Restaurants'
+];
+
+const legendcolours = [
+    'green',
+    'purple',
+    'red'
+];
+
+//Declare legend variable using legend div tag
+const legend = document.getElementById('legend');
+
+//For each layer create a block to put the colour and label in
+legendlabels.forEach((label, i) => {
+    const color = legendcolours[i];
+
+    const item = document.createElement('div'); //each layer gets a 'row' - this isn't in the legend yet, we do this later
+    const key = document.createElement('span'); //add a 'key' to the row. A key will be the color circle
+
+    key.className = 'legend-key'; //the key will take on the shape and style properties defined in css
+    key.style.backgroundColor = color; // the background color is retreived from teh layers array
+
+    const value = document.createElement('span'); //add a value variable to the 'row' in the legend
+    value.innerHTML = `${label}`; //give the value variable text based on the label
+
+    item.appendChild(key); //add the key (color cirlce) to the legend row
+    item.appendChild(value); //add the value to the legend row
+
+    legend.appendChild(item); //add row to the legend
 });
-
-let sitevalue1;
-
-document.getElementById("interests1").addEventListener('change',() => {   
-    // sitevalue1 = document.getElementById('site1').value;
-    catevalue = document.getElementById('site').value;
-    if (catevalue === 'Parks') {
-        document.getElementById('all1').style.visibility = 'hidden';
-        document.getElementById('hist1').style.visibility = 'hidden';
-        document.getElementById('restro1').style.visibility = 'hidden';
-        parkvalue1 = document.getElementById('park1').value;  
-        
-    console.log(catevalue);
-    map.setFilter(
-        'torontosites',
-        ['==', ['get', 'Details'], park1] //returns selected points
-    );   
-    }
-    
-
-
-
-
-
-
-
-
-    // console.log(sitevalue1);
-    //     map.setFilter(
-    //         'torontosites',
-    //         ['==', ['get', 'Details'], sitevalue1] //returns selected points
-    //     );
-});
-
-
-
-
-// 1. geocoder not showing
-
-// 2. seperate colors by categories 
-// 3. buffer can only do one time 
-
-// 4. can not select by buffer (Extra)
-
-
-// 5. how to show nearest point
-//       print the result on html
-
-// 7. change points to symbols?
