@@ -5,9 +5,9 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoiemd5NjY3NyIsImEiOiJjbGRtMHNzd2owNHJ1M3hxZmw0M
 //Initialize map
 const map = new mapboxgl.Map({
     container: 'map', 
-    // style: 'mapbox://styles/mapbox/outdoors-v12',  //stylesheet location creat our own style
+    // style: 'mapbox://styles/mapbox/outdoors-v12',  //stylesheet location we creted we created
     style: 'mapbox://styles/robeemre/clg036rqs000r01rz8n9rv2so',
-    center: [-79.39, 43.65],  // starting point, longitude/latitude 43.652652, -79.393014 change to toronto
+    center: [-79.39, 43.65],  // starting point, longitude/latitude 43.652652, -79.393014 for toronto
     zoom: 12 // starting zoom level
 });
 
@@ -31,7 +31,7 @@ fetch('https://raw.githubusercontent.com/zgy6677/472finalmap/main/GGR472update.g
     .then(response => response.json())
     .then(response => {
         console.log(response); //Check response in console
-        pntgeojson = response; // Store geojson as variable using URL from fetch response
+        pntgeojson = response; //Store geojson as variable using URL from fetch response
     });
 
 //=====================
@@ -94,7 +94,7 @@ document.getElementById("category").addEventListener('change',() => {
     if (sitevalue == 's') {
         map.setFilter(
             'torontosites',
-            ['has', 'Category'] //returns all
+            ['has', 'Category'] //returns all sites
         );
     } else {
         map.setFilter(
