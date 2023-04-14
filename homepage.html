@@ -10,28 +10,36 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     
-    <!--Styling for Title header and Text, background image, and font changes to improve legibility. Included here to avoid applying style to map page-->
+    <!--Styling for elements on Home page. Included here to avoid conflicting style between similar elements in both pages.-->
     <style>
         body {
             background-image: url('https://gotourismguides.com/toronto/wp-content/themes/gotourism-v1/img/tornot-tourism-guide-2.jpg');
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-size: cover;
+            background-size: cover;/*fits image to cover entire page and not repeat to fill page*/
         }
         h1 {
             color: #FFFFFF;
-            text-shadow: 2px 2px 2px #000000;
+            text-shadow: 2px 2px 2px #000000; /*shaddow for better legibility*/
             font-family: Georgia, 'Times New Roman', Times, serif;
+            text-align: center;
+            
         }
         h2 {
             color: #FFFFFF;
-            text-shadow: 2px 2px 2px #000000;
+            text-shadow: 2px 2px 2px #000000; /*shaddow for better legibility*/
             font-family: Georgia, 'Times New Roman', Times, serif;
+            text-align: center;
+            
         }
         p {
             color: #FFFFFF;
-            text-shadow: 2px 2px 2px #000000;
+            text-shadow: 2px 2px 2px #000000; /*shaddow for better legibility*/
             font-family: Georgia, 'Times New Roman', Times, serif;
+            margin-left: 15px;
+            margin-right: 15px;
+            text-align: justify;
+            font-size: large;
         }
         .btn-info {
             height: 85px;
@@ -41,19 +49,18 @@
             font-size: x-large;
             font-family: Georgia, 'Times New Roman', Times, serif;
             align-items: center;
-            line-height: 60px;
+            line-height: 60px; /*vertical centering of "Map!" text inside button*/
+            box-shadow: 2px 2px 2px 1px #000000; /*shadow for better button visibility*/
         }
         .div5 {
-            display: grid;
+            display: grid; /*move Map! button div tag to more central location on screen*/
             width: 250px;
-            height: 250px;
-            margin: auto;
+            height: 250px; /*ensures enough separation between button and <p> text*/
+            margin: auto; 
         }
     </style>
-<!--Styling for the "Map!" button and parent div tag are set to align the button near the middle of the screen below the text, and align the text to be both vertically and horizontally centered within the button.-->
-<!--Styling for the headers and text include a text-shadow effect to maintain legibility even as the background color changes across the page.-->
 </head>
-<!--Code for navigation bar. Both buttons are fully functional and can serve as a refresh button-->
+<!--Code for navigation bar. Both buttons are fully functional from both pages and can serve as a refresh button-->
 <body>
     <div>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -66,7 +73,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="homepage.html">Home</a>
+                            <a class="nav-link" href="homepage.html"><b>Home</b></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="home.html">Map</a>
@@ -78,16 +85,17 @@
     </div>
 <!--Title and supporting introductory text-->
     <div>
-    <h1>Traveller's Guide to Toronto</h1>
+    <h1><b>Traveller's Guide to Toronto</b></h1>
     <h2>An Interactive Web Map of Toronto's Best Attractions</h2>
     <p>Planning on visiting Toronto? Not sure which places you want to visit? Let this tool be your tour guide! With hundreds of cultural sites and almost 30 million visitors per year, Toronto is Canada's tourist hotspot. Still, it can be unnecessarily complicated to figure out which places to visit and where they are; this interactive map helps visualize the tourist attractions you're most interested in seeing.</p>
     </div>
+<!--Explanation of map functionality-->
     <div>
-        <p>To get started, click on the "Map" button below. Once there, click on the different attractions to open a pop-up window with some general info about it. You can click anywhere on the map to drop a location 'pin'; the nearest attraction will display in the top left screen. The "10 min suggestions" button creates a buffer zone indicating the area within 10 minutes of your location pin by various modes; you may also select all attractions within that area. Using the "Jump To" button zooms the map in on the nearest attraction. You can also use the search bar in the top right screen to find specific sites and additional attractions not listed here. Happy sight-seeing!</p>
+        <p>To get started, click on the "Map" button below. Once there, click on the different attractions to open a pop-up window with some general info about it. You can click anywhere on the map to drop a location 'pin'; the nearest attraction will display in the top left screen. The "10 min suggestions" button creates a buffer zone indicating the area within 10 minutes of your location pin by various modes; you may also select all attractions within that area. Using the "Jump To" button zooms the map in on the nearest attraction. You can also use the search bar in the top right screen to find specific sites and additional attractions not listed here. <b>Happy sight-seeing!</b></p>
     </div>
     <!--Div tag and "Map!" button. Div class set to unique (div5) to apply styling effects to this div tag only.-->
     <div class="div5">
-        <a class="btn btn-info" id="mapbutton" href="home.html" role="button">Map!</a>
+        <a class="btn btn-info" id="mapbutton" href="home.html" role="button"><b>Map!</b></a>
     </div>
     <script src="script.js"></script>
 <!--End script for boostrap functionality-->
