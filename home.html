@@ -62,7 +62,7 @@
     <!-- ELEMENTS -->
     <div class='map-overlay'>
         <button type="button" class="btn btn-primary btn-sm" id="buffbutton">10 Mins Suggestions</button>
-        <button type="button" class="btn btn-primary btn-sm" id="selection">select by buffer</button>
+        <button type="button" class="btn btn-primary btn-sm" id="selection">Select By Buffer</button>
     </div>
 
 
@@ -117,14 +117,34 @@
     </div>
             
 
-
+    <script src="action.js"></script>
 
     <!-- Legend  -->
-    <div id="legend" class = 'legend'>
+    <div id="legend" class = 'legend-test'>
         <h4>Legend</h4>
-        <!-- <div><span style ='green'></span> Parks </div>
-        <div><span style ='red'></span> Attractions </div>
-        <div><span style ='purple'></span> Restaurants </div> -->
+        <svg width="20" height="20">
+            <rect width="20" height="10" style="fill:rgba(255, 165, 0, 0.9);stroke-width:0.5;stroke:rgb(0,0,0)" /> 
+        </svg> Walking 10 mins Circle <br>
+        <svg width="20" height="20">
+            <rect width="20" height="10" style="fill:rgba(255, 165, 0, 0.6);stroke-width:0.5;stroke:rgb(0,0,0)" /> 
+        </svg> TTC 10 mins Circle <br>
+        <svg width="20" height="20">
+            <rect width="20" height="10" style="fill:rgba(255, 165, 0, 0.3);stroke-width:0.5;stroke:rgb(0,0,0)" />
+        </svg> Driving 10 mins circle <br>
+
+        <svg width="20" height="20">
+            <circle cx="10" cy="10" r="4" fill="green" /> 
+        </svg> Parks <br>
+        <svg width="20" height="20">
+            <circle cx="10" cy="10" r="4" fill="purple" /> 
+        </svg> Attractions <br>
+        <svg width="20" height="20">
+            <circle cx="10" cy="10" r="4" fill="red" /> 
+        </svg> Restaurants <br>
+        <svg width="20" height="20">
+            <circle cx="10" cy="10" r="4" 
+            stroke="black" stroke-width="0.5" fill="yellow" /> 
+        </svg> Selected by Buffer
     </div>
 
 
@@ -135,6 +155,6 @@
 
 </body>
 
-<script src="action.js"></script>
+
 
 </html>

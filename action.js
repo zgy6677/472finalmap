@@ -64,32 +64,7 @@ document.getElementById("category").addEventListener('change',() => {
     
     console.log(sitevalue);
 
-    // if (sitevalue == 'Parks') {
-    //     // myselect.remove(1);
-    //     // myselect.remove(2);
-    //     // myselect.remove(3);
-    //     // myselect.remove(6);
-    //     // myselect.remove(7);
-    //     // myselect.remove(8);
-    //     // myselect.remove(9);
-    //     // myselect.remove(10)
-    // };
-    // if (sitevalue == 'Attractions') {
-    //     myselect.remove(4);
-    //     myselect.remove(5);
-    //     myselect.remove(6);
-    //     myselect.remove(7);
-    //     myselect.remove(8);
-    //     myselect.remove(9);
-    //     myselect.remove(10)
-    // };        
-    // if (sitevalue == 'Restaurants') {
-    //     myselect.remove(1);
-    //     myselect.remove(2);
-    //     myselect.remove(3);
-    //     myselect.remove(4);
-    //     myselect.remove(5)
-    // };
+    
 
     if (sitevalue == 's') {
         map.setFilter(
@@ -167,6 +142,24 @@ map.on('load', () => {
     });
 
     //Add layer only once using case expression and feature state for opacity
+    // map.addLayer({
+    //     'id': 'torontosites',
+    //     'type': 'circle',
+    //     'source': 'toronto',
+    //     'paint': {
+    //         'circle-radius': 4,
+    //         'circle-color': ["match", ["get", "Category"],
+    //             ["Parks"],"green",["Attractions"],"purple",
+    //             "red"
+    //         ]
+    //     }
+    // });
+
+    // Adding Images
+
+
+
+
     map.addLayer({
         'id': 'torontosites',
         'type': 'circle',
@@ -317,8 +310,9 @@ document.getElementById('selection').addEventListener('click', () => {
         'type': 'circle',
         'source': 'hlight',
         'paint': {
-            'circle-radius': 4,
-            'circle-color': 'yellow'
+            'circle-radius': 3,
+            'circle-color': 'yellow',
+            
         }
     }); 
 
@@ -420,40 +414,3 @@ document.getElementById('selection').addEventListener('click', () => {
 //     );   
 // });
 
-
-
-// add legend
-//Declare arrayy variables for labels and colours
-const legendlabels = [
-    'Parks',
-    'Attractions',
-    'Restaurants'
-];
-
-const legendcolours = [
-    'green',
-    'purple',
-    'red'
-];
-
-//Declare legend variable using legend div tag
-const legend = document.getElementById('legend');
-
-//For each layer create a block to put the colour and label in
-legendlabels.forEach((label, i) => {
-    const color = legendcolours[i];
-
-    const item = document.createElement('div'); //each layer gets a 'row' - this isn't in the legend yet, we do this later
-    const key = document.createElement('span'); //add a 'key' to the row. A key will be the color circle
-
-    key.className = 'legend-key'; //the key will take on the shape and style properties defined in css
-    key.style.backgroundColor = color; // the background color is retreived from teh layers array
-
-    const value = document.createElement('span'); //add a value variable to the 'row' in the legend
-    value.innerHTML = `${label}`; //give the value variable text based on the label
-
-    item.appendChild(key); //add the key (color cirlce) to the legend row
-    item.appendChild(value); //add the value to the legend row
-
-    legend.appendChild(item); //add row to the legend
-});
