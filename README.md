@@ -5,7 +5,7 @@ This project was created to support tourists' navigation of higly rated parks, a
 1. Select User's desired category.
 3. Use mouse to choose a destination location.
 4. Turn on 10mins distance estimation by Buffer button.
-5. Hightlight all places within 10mins zone by clicking "Slecte By Buffer"
+5. Hightlight all places within 10mins zone by clicking "Select By Buffer"
 6. With the infomation display of the closest place, "Jump To" button can help user to locate the place.  
 
 # Technologies Used
