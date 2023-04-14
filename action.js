@@ -141,25 +141,7 @@ map.on('load', () => {
         data: pntgeojson
     });
 
-    //Add layer only once using case expression and feature state for opacity
-    // map.addLayer({
-    //     'id': 'torontosites',
-    //     'type': 'circle',
-    //     'source': 'toronto',
-    //     'paint': {
-    //         'circle-radius': 4,
-    //         'circle-color': ["match", ["get", "Category"],
-    //             ["Parks"],"green",["Attractions"],"purple",
-    //             "red"
-    //         ]
-    //     }
-    // });
-
-    // Adding Images
-
-
-
-
+    // Add layer only once using case expression and feature state for opacity
     map.addLayer({
         'id': 'torontosites',
         'type': 'circle',
@@ -172,6 +154,9 @@ map.on('load', () => {
             ]
         }
     });
+
+
+    
 
 });
 //Add input features to data source based on mouse click and display in map
